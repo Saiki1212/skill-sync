@@ -1,0 +1,38 @@
+package com.stpl.tech.ss_service.ss_service.modal.entity;
+
+import com.stpl.tech.ss_service.ss_service.modal.enums.UserStatus;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "USER_BASE_DETAIL_DATA")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserBaseDetailData {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "USER_ID", nullable = false, unique = true)
+    private Integer userId;
+
+    @Column(name = "USER_NAME", nullable = false, unique = true)
+    private String username;
+
+    @Column(name = "PASSWORD")
+    private String password;
+
+    @Column(name = "USER_STATUS")
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus;
+
+}
