@@ -3,10 +3,13 @@ package com.stpl.tech.ss_service.ss_service.config;
 import com.stpl.tech.ss_service.ss_service.config.jwtConfig.JWTFilter;
 import com.stpl.tech.ss_service.ss_service.exception.CustomAccessDeniedHandler;
 import com.stpl.tech.ss_service.ss_service.resource.SSResourceUtil;
+import com.stpl.tech.ss_service.ss_service.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,10 +24,13 @@ import java.util.List;
 @EnableWebSecurity
 @Configuration
 public class SpringSecurityConfig {
-    private static final String NO_AUTHORIZATION_REQUIRED_PATH = SSResourceUtil.BASE_PATH + "/" + SSResourceUtil.AUTH_ROOT_CONTEXT + "/**";
+    private static final String NO_AUTHORIZATION_REQUIRED_PATH = SSResourceUtil.BASE_PATH + SSResourceUtil.AUTH_ROOT_CONTEXT + "/**";
 
     @Autowired
     private CustomAccessDeniedHandler accessDeniedHandler;
+
+    @Autowired
+    private CustomUserDetailService customUserDetailService;
 
     @Autowired
     private JWTFilter jwtFilter;
@@ -49,6 +55,15 @@ public class SpringSecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return security.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder
+                .userDetailsService(customUserDetailService)
+                .passwordEncoder(passwordEncoder());
+        return authenticationManagerBuilder.build();
     }
 
 
