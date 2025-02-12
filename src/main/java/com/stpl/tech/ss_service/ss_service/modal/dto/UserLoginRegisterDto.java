@@ -1,5 +1,6 @@
 package com.stpl.tech.ss_service.ss_service.modal.dto;
 
+import jakarta.annotation.Nonnull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,6 @@ public class UserLoginRegisterDto {
     private String username;
     private String password;
     private String email;
-    private String name;
+    private String fullName;
     private Long phoneNumber;
 }

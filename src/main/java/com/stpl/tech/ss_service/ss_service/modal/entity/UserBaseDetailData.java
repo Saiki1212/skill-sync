@@ -35,4 +35,13 @@ public class UserBaseDetailData {
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
 
+    @Column(name = "FULL_NAME")
+    private String fullName;
+
+    @Column(name = "EMAIL")
+    private String email;
+
+    @Column(name = "PHONE_NUMBER")
+    private Long phoneNumber;
+
 }

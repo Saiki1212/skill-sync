@@ -9,6 +9,6 @@ public interface AuthService {
 
     public String loginUser(UserLoginRegisterDto userLoginRegisterDto) throws FieldsNotValidException;
 
-    public String registerUser(UserLoginRegisterDto userLoginRegisterDto) throws FieldsNotValidException;
+    public String registerUser(UserLoginRegisterDto userLoginRegisterDto) throws Exception;
 
 }

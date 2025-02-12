@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("register")
-    public String registerUser(@RequestBody UserLoginRegisterDto registerDetails) throws FieldsNotValidException {
+    public String registerUser(@RequestBody UserLoginRegisterDto registerDetails) throws Exception {
         return authService.registerUser(registerDetails);
     }
 

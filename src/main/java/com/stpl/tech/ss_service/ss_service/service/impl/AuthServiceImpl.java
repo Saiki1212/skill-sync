@@ -7,24 +7,28 @@ import com.stpl.tech.ss_service.ss_service.exception.FieldsNotValidException;
 import com.stpl.tech.ss_service.ss_service.exception.LoginFailedException;
 import com.stpl.tech.ss_service.ss_service.modal.dto.UserLoginRegisterDto;
 import com.stpl.tech.ss_service.ss_service.modal.entity.UserBaseDetailData;
-import com.stpl.tech.ss_service.ss_service.modal.enums.UserStatus;
-import com.stpl.tech.ss_service.ss_service.resource.AppUtil;
+import com.stpl.tech.ss_service.ss_service.resource.AppConstants;
 import com.stpl.tech.ss_service.ss_service.service.AuthService;
-import com.stpl.tech.ss_service.ss_service.service.CustomUserDetailService;
+import com.stpl.tech.ss_service.ss_service.service.email.EmailService;
+import com.stpl.tech.ss_service.ss_service.service.email.RegistrationSuccessEMail;
+import com.stpl.tech.ss_service.ss_service.service.mapper.UserDetailMapperService;
+import io.micrometer.common.util.StringUtils;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Objects;
+import java.util.concurrent.ScheduledFuture;
 
 @Service
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
@@ -37,7 +41,13 @@ public class AuthServiceImpl implements AuthService {
     private JWTService jwtService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UserDetailMapperService userDetailMapperService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private ThreadPoolTaskScheduler taskScheduler;
 
     @Override
     @MasterTransactional
@@ -57,30 +67,46 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @MasterTransactional
-    public String registerUser(UserLoginRegisterDto details) throws FieldsNotValidException {
+    public String registerUser(UserLoginRegisterDto details) throws Exception {
         isRequiredFieldsPresent( details);
         UserBaseDetailData user = userRepo.findByUsername(details.getUsername());
         if(Objects.nonNull(user)) {
             throw new RuntimeException("User already exists with this  username : " + details.getUsername());
         }
-        saveUser(details);
+        UserBaseDetailData userData = userDetailMapperService.convertUserLoginData(details);
+        userData = userRepo.save(userData);
+
+        scheduleUserEmailForRegistration(userData, 1);
+
         return jwtService.generateToken(details.getUsername());
     }
 
     private void isRequiredFieldsPresent(UserLoginRegisterDto details) throws FieldsNotValidException {
 
-        if(AppUtil.hasNoLength(details.getUsername()) || AppUtil.hasNoLength(details.getPassword())) {
+        if(StringUtils.isBlank(details.getUsername()) || StringUtils.isBlank(details.getPassword())) {
             throw new FieldsNotValidException("Required fields not found");
         }
 
     }
 
-    private void saveUser(UserLoginRegisterDto details) {
-        UserBaseDetailData user = new UserBaseDetailData();
-        user.setUsername(details.getUsername());
-        user.setPassword(passwordEncoder.encode(details.getPassword()));
-        user.setUserStatus(UserStatus.ACTIVE);
-        userRepo.save(user);
+    private void scheduleUserEmailForRegistration(UserBaseDetailData userData, int ignoredDelayInMinutes) {
+        taskScheduler.schedule(
+                () ->  sendEmailForSuccessfulRegistration(userData),
+                Instant.now().plusSeconds(ignoredDelayInMinutes * 30)
+        );
+        log.info("Email scheduled for: {} in {} minutes.", userData.getUsername(), ignoredDelayInMinutes);
+    }
+
+    @Async
+    @SneakyThrows
+    private void sendEmailForSuccessfulRegistration(UserBaseDetailData userData) {
+
+        RegistrationSuccessEMail email = new RegistrationSuccessEMail(
+                userData,
+                AppConstants.SEND_EMAIL_FROM
+        );
+
+        emailService.sendEmail(email);
     }
 
 }
