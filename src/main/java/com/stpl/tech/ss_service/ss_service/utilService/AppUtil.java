@@ -1,4 +1,4 @@
-package com.stpl.tech.ss_service.ss_service.resource;
+package com.stpl.tech.ss_service.ss_service.utilService;
 
 
 import io.micrometer.common.util.StringUtils;

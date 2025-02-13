@@ -1,9 +1,9 @@
-package com.stpl.tech.ss_service.ss_service.service.mapper.impl;
+package com.stpl.tech.ss_service.ss_service.utilService.mapper.impl;
 
 import com.stpl.tech.ss_service.ss_service.modal.dto.UserLoginRegisterDto;
 import com.stpl.tech.ss_service.ss_service.modal.entity.UserBaseDetailData;
 import com.stpl.tech.ss_service.ss_service.modal.enums.UserStatus;
-import com.stpl.tech.ss_service.ss_service.service.mapper.UserDetailMapperService;
+import com.stpl.tech.ss_service.ss_service.utilService.mapper.UserDetailMapperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
