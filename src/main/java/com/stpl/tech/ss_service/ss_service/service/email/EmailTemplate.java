@@ -1,4 +1,4 @@
-package com.stpl.tech.ss_service.ss_service.utilService.email;
+package com.stpl.tech.ss_service.ss_service.service.email;
 
 import org.springframework.stereotype.Service;
 
