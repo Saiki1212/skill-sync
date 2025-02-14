@@ -31,9 +31,10 @@ public class UserBaseDetailData {
     @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "USER_STATUS")
     @Enumerated(EnumType.STRING)
+    @Column(name = "USER_STATUS")
     private UserStatus userStatus;
+
 
     @Column(name = "FULL_NAME")
     private String fullName;
@@ -41,7 +42,7 @@ public class UserBaseDetailData {
     @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "PHONE_NUMBER")
+    @Column(name = "PHONE_NUMBER", columnDefinition = "BIGINT")
     private Long phoneNumber;
 
 }
