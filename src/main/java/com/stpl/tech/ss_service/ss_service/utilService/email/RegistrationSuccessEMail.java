@@ -1,4 +1,4 @@
-package com.stpl.tech.ss_service.ss_service.service.email;
+package com.stpl.tech.ss_service.ss_service.utilService.email;
 
 import com.stpl.tech.ss_service.ss_service.modal.entity.UserBaseDetailData;
 

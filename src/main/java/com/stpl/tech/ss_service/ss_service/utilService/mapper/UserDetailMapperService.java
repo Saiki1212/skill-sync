@@ -1,4 +1,4 @@
-package com.stpl.tech.ss_service.ss_service.service.mapper;
+package com.stpl.tech.ss_service.ss_service.utilService.mapper;
 
 import com.stpl.tech.ss_service.ss_service.modal.dto.UserLoginRegisterDto;
 import com.stpl.tech.ss_service.ss_service.modal.entity.UserBaseDetailData;

@@ -1,4 +1,4 @@
-package com.stpl.tech.ss_service.ss_service.service.email;
+package com.stpl.tech.ss_service.ss_service.utilService.email;
 
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
