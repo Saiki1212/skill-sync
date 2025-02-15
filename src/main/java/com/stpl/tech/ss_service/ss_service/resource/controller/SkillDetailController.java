@@ -3,6 +3,7 @@ package com.stpl.tech.ss_service.ss_service.resource.controller;
 import com.stpl.tech.ss_service.ss_service.dbDomain.abstractRepo.HttpServletRequestDetails;
 import com.stpl.tech.ss_service.ss_service.modal.dto.SkillCategoryDto;
 import com.stpl.tech.ss_service.ss_service.modal.dto.SkillDetailDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.UserSkillMappingDto;
 import com.stpl.tech.ss_service.ss_service.resource.SSResourceUtil;
 import com.stpl.tech.ss_service.ss_service.service.SkillsDetailService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(SSResourceUtil.BASE_PATH + SSResourceUtil.SKILL_DETAIL_ROOT_CONTEXT)
@@ -42,6 +45,16 @@ public class SkillDetailController {
     @GetMapping("get-skill")
     public SkillDetailDto getSkillDetailsById(@RequestParam Integer skillId) {
         return skillsDetailService.getSkillDetailsById(skillId);
+    }
+
+    @PostMapping("user/add/skill")
+    public UserSkillMappingDto addSkillToAUser(@RequestBody UserSkillMappingDto mappingDto, HttpServletRequest request) {
+        return skillsDetailService.addSkillToAUser(mappingDto, httpServletRequestDetails.getUsernameFromToken(request));
+    }
+
+    @GetMapping("user/get-all-skills")
+    public List<UserSkillMappingDto> getAllUsersSkills(HttpServletRequest request) {
+        return skillsDetailService.getAllUsersSkills(httpServletRequestDetails.getUsernameFromToken(request));
     }
 
 }

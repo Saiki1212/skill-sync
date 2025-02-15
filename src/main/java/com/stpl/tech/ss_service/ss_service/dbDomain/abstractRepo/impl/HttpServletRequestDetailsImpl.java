@@ -12,15 +12,24 @@ public class HttpServletRequestDetailsImpl implements HttpServletRequestDetails 
     @Autowired
     private JWTService jwtService;
 
+    private String checkForTokenValidation(HttpServletRequest request) {
+
+        return request.getHeader("Authorization") != null ?
+                request.getHeader("Authorization").substring(7) : null;
+    }
+
     @Override
     public String getUsernameFromToken(HttpServletRequest request) {
-
-        final String token = request.getHeader("Authorization") != null ?
-                request.getHeader("Authorization").substring(7) : null;
-
+        final String token = checkForTokenValidation(request);
         if(token == null) return null;
-
         return jwtService.getUserNameFromToken(token);
+    }
+
+    @Override
+    public Integer getUserIdFromToken(HttpServletRequest request) {
+        final String token = checkForTokenValidation(request);
+        if(token == null) return null;
+        return jwtService.getUserIdFromToken(token);
     }
 
 }
