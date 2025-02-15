@@ -1,4 +1,4 @@
-package com.stpl.tech.ss_service.ss_service.modal.entity;
+package com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity;
 
 import com.stpl.tech.ss_service.ss_service.modal.enums.SkillStatus;
 import jakarta.persistence.Column;
@@ -13,38 +13,54 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "SKILLS_ENDORSEMENT_DATA")
-@Data
+@Table(name = "SKILLS_DETAIL_DATA")
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SkillEndorsementData {
+public class SkillsDetailData {
 
     @Id
-    @Column(name = "SKILL_ENDORSEMENT_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer skillEndorsementId;
+    @Column(name = "SKILL_ID")
+    private Integer skillId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "USER_SKILL_ID")
-//    private UserSkillMappingData userSkillMapping;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SKILL_CATEGORY_ID")
+    private SkillCategoryData skillCategoryData;
 
-//    @Column(name = "ENDORSED_BY_USER_ID")
-//    private UserBaseDetailData endorsedByUser;
+    @Column(name = "SKILL_NAME")
+    private String skillName;
 
-    @Column(name = "ENDORSEMENT_COMMENT")
-    private String endorsementComment;
+    @Column(name = "SKILL_DESCRIPTION")
+    private String skillDescription;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "ENDORSEMENT_STATUS")
-    private SkillStatus endorsementStatus;
+    @Column(name = "SKILL_STATUS")
+    private SkillStatus skillStatus;
+
+    @Column(name = "CERTIFICATION_REQUIRED")
+    private String requiredCertification = "N";
 
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "CREATED_BY_EMP")
+    private Integer createdBy;
+
 }
+
+
+
+
+
+
+
+

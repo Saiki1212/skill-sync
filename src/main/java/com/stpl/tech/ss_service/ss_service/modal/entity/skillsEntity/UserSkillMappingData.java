@@ -1,14 +1,18 @@
-package com.stpl.tech.ss_service.ss_service.modal.entity;
+package com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity;
 
+import com.stpl.tech.ss_service.ss_service.modal.entity.UserBaseDetailData;
 import com.stpl.tech.ss_service.ss_service.modal.enums.SkillProficiencyLevelEnum;
 import com.stpl.tech.ss_service.ss_service.modal.enums.UserSkillStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -30,19 +34,21 @@ public class UserSkillMappingData {
     @Column(name = "USER_SKILL_MAPPING_ID")
     private Integer userSkillMappingId;
 
-//    @Column(name = "SKILL_ID")
-//    private SkillsDetailData skill;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SKILL_ID")
+    private SkillsDetailData skill;
 
-//    @Column(name = "USER_ID")
-//    private UserBaseDetailData user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private UserBaseDetailData user;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "PROFICIENCY_LEVEL")
     private SkillProficiencyLevelEnum proficiencyLevel;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "USER_SKILL_STATUS")
-//    private UserSkillStatus userSkillStatus;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "USER_SKILL_STATUS")
+    private UserSkillStatus userSkillStatus;
 
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -50,7 +56,7 @@ public class UserSkillMappingData {
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
-//    @OneToMany(mappedBy = "userSkillMapping")
-//    private Set<SkillEndorsementData> skillEndorsementDataSet;
+    @OneToMany(mappedBy = "userSkillMapping")
+    private Set<SkillEndorsementData> skillEndorsementDataSet;
 
 }

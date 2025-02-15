@@ -1,5 +1,6 @@
-package com.stpl.tech.ss_service.ss_service.modal.entity;
+package com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity;
 
+import com.stpl.tech.ss_service.ss_service.modal.entity.UserBaseDetailData;
 import com.stpl.tech.ss_service.ss_service.modal.enums.SkillStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,54 +14,39 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "SKILLS_DETAIL_DATA")
-@Getter
-@Setter
+@Table(name = "SKILLS_ENDORSEMENT_DATA")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SkillsDetailData {
+public class SkillEndorsementData {
 
     @Id
+    @Column(name = "SKILL_ENDORSEMENT_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SKILL_ID")
-    private Integer skillId;
+    private Integer skillEndorsementId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "SKILL_CATEGORY_ID")
-//    private SkillCategoryData skillCategoryData;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_SKILL_ID")
+    private UserSkillMappingData userSkillMapping;
 
-    @Column(name = "SKILL_NAME")
-    private String skillName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ENDORSED_BY_USER_ID")
+    private UserBaseDetailData endorsedByUser;
 
-    @Column(name = "SKILL_DESCRIPTION")
-    private String skillDescription;
+    @Column(name = "ENDORSEMENT_COMMENT")
+    private String endorsementComment;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "SKILL_STATUS")
-    private SkillStatus skillStatus;
-
-    @Column(name = "CERTIFICATION_REQUIRED")
-    private String requiredCertification = "N";
+    @Column(name = "ENDORSEMENT_STATUS")
+    private SkillStatus endorsementStatus;
 
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "CREATED_BY_EMP")
-    private Integer createdBy;
-
 }
-
-
-
-
-
-
-
-

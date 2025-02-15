@@ -1,4 +1,4 @@
-package com.stpl.tech.ss_service.ss_service.modal.entity;
+package com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity;
 
 import com.stpl.tech.ss_service.ss_service.modal.enums.SkillStatus;
 import jakarta.persistence.Column;
@@ -45,7 +45,7 @@ public class SkillCategoryData {
     @Column(name = "CATEGORY_STATUS")
     private SkillStatus categoryStatus;
 
-//    @OneToMany(mappedBy = "skillCategoryData")
-//    private Set<SkillsDetailData> skillDetailDataSet;
+    @OneToMany(mappedBy = "skillCategoryData")
+    private Set<SkillsDetailData> skillDetailDataSet;
 
 }
