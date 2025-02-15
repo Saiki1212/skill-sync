@@ -8,4 +8,5 @@ public interface HttpServletRequestDetails {
 
     public String getUsernameFromToken(HttpServletRequest request);
 
+    Integer getUserIdFromToken(HttpServletRequest request);
 }

@@ -31,8 +31,9 @@ public class JWTService {
         return Keys.hmacShaKeyFor(bytes);
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String username, Integer userId) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId);
         return Jwts.builder()
                 .claims(claims)
                 .subject(username)
@@ -53,6 +54,15 @@ public class JWTService {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+
+    public Integer getUserIdFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return (Integer) claims.get("userId");
     }
 
     public Boolean isTokenValid(String token, String userName) {

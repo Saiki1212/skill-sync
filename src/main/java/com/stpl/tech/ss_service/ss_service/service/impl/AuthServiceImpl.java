@@ -50,7 +50,10 @@ public class AuthServiceImpl implements AuthService {
                 );
 
         if(authentication.isAuthenticated()) {
-            return jwtService.generateToken(userLoginRegisterDto.getUsername());
+            return jwtService.generateToken(
+                    userLoginRegisterDto.getUsername(),
+                    userRepo.findByUsername(userLoginRegisterDto.getUsername()).getUserId()
+            );
         }
         throw new LoginFailedException("User not found for username : " + userLoginRegisterDto.getUsername());
     }
@@ -68,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
 
         schedulerService.scheduleUserEmailForRegistration(userData, 1);
 
-        return jwtService.generateToken(details.getUsername());
+        return jwtService.generateToken(details.getUsername(), userData.getUserId());
     }
 
     private void isRequiredFieldsPresent(UserLoginRegisterDto details) throws FieldsNotValidException {
