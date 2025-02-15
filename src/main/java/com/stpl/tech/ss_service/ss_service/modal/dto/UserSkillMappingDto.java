@@ -15,12 +15,11 @@ import java.util.Set;
 public class UserSkillMappingDto {
 
     private Integer userSkillMappingId;
-    private SkillCategoryDto skill;
+    private SkillDetailDto skillDetailDto;
     private UserBasicDataDto user;
     private SkillProficiencyLevelEnum proficiencyLevel;
     private UserSkillStatus userSkillStatus;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
     private Set<SkillEndorsementDto> skillEndorsementDtoSet;
 
 }
