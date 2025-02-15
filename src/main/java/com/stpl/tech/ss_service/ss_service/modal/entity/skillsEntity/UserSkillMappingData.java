@@ -53,9 +53,6 @@ public class UserSkillMappingData {
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "UPDATED_AT")
-    private LocalDateTime updatedAt;
-
     @OneToMany(mappedBy = "userSkillMapping")
     private Set<SkillEndorsementData> skillEndorsementDataSet;
 

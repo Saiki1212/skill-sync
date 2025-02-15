@@ -12,13 +12,17 @@ public interface SkillsDetailService {
 
     SkillCategoryDto createSkillCategory(SkillCategoryDto categoryDto);
 
-    SkillCategoryDto getSkillCategoryById(Integer categoryId);
+    List<SkillCategoryDto> getSkillCategory(Integer categoryId);
 
     SkillDetailDto createSkillDetail(SkillDetailDto skillDetailDto);
 
-    SkillDetailDto getSkillDetailsById(Integer skillId);
+    List<SkillDetailDto> getSkillDetails(Integer skillId);
 
-    UserSkillMappingDto addSkillToAUser(UserSkillMappingDto mappingDto, String username);
+    UserSkillMappingDto addSkillToAUser(UserSkillMappingDto mappingDto, Integer userId);
 
-    List<UserSkillMappingDto> getAllUsersSkills(String username);
+    List<UserSkillMappingDto> getAllUsersSkills(Integer skillId, Integer userId);
+
+    UserSkillMappingDto editUserSkill(UserSkillMappingDto mappingDto);
+
+    boolean removeUserSkill(Integer skillId, Integer userIdFromToken);
 }
