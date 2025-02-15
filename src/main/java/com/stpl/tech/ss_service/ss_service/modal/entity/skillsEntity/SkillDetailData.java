@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SkillsDetailData {
+public class SkillDetailData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

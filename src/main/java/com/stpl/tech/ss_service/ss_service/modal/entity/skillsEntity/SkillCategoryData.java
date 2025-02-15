@@ -46,6 +46,6 @@ public class SkillCategoryData {
     private SkillStatus categoryStatus;
 
     @OneToMany(mappedBy = "skillCategoryData")
-    private Set<SkillsDetailData> skillDetailDataSet;
+    private Set<SkillDetailData> skillDetailDataSet;
 
 }

@@ -1,0 +1,18 @@
+package com.stpl.tech.ss_service.ss_service.utilService.mapper;
+
+import com.stpl.tech.ss_service.ss_service.modal.dto.SkillCategoryDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.SkillDetailDto;
+import com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity.SkillCategoryData;
+import com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity.SkillDetailData;
+import org.springframework.stereotype.Service;
+
+@Service
+public interface SkillDetailServiceMapper {
+
+    SkillCategoryData convertSkillCategoryDtoToData(SkillCategoryDto skillCategoryDto);
+    SkillCategoryDto convertSkillCategoryDataToDto(SkillCategoryData skillCategoryData, boolean isChildNeeded);
+
+    SkillDetailData convertSkillDetailDtoToData(SkillDetailDto skillsDetailDto, SkillCategoryData skillCategoryData);
+    SkillDetailDto convertSkillDetailDataToDto(SkillDetailData skillDetailData, boolean isParentNeeded);
+
+}

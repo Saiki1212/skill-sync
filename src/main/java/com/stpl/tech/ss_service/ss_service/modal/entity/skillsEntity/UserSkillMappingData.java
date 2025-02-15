@@ -36,7 +36,7 @@ public class UserSkillMappingData {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SKILL_ID")
-    private SkillsDetailData skill;
+    private SkillDetailData skill;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
