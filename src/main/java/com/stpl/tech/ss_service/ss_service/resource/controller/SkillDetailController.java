@@ -1,8 +1,10 @@
 package com.stpl.tech.ss_service.ss_service.resource.controller;
 
+import com.stpl.tech.ss_service.ss_service.config.annotations.SkipResponseWrapper;
 import com.stpl.tech.ss_service.ss_service.dbDomain.abstractRepo.HttpServletRequestDetails;
 import com.stpl.tech.ss_service.ss_service.modal.dto.SkillCategoryDto;
 import com.stpl.tech.ss_service.ss_service.modal.dto.SkillDetailDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.SkillEndorsementDto;
 import com.stpl.tech.ss_service.ss_service.modal.dto.UserSkillMappingDto;
 import com.stpl.tech.ss_service.ss_service.resource.SSResourceUtil;
 import com.stpl.tech.ss_service.ss_service.service.SkillsDetailService;
@@ -34,7 +36,8 @@ public class SkillDetailController {
     }
 
     @GetMapping("get-category")
-    public List<SkillCategoryDto> getSkillCategoryById(@RequestParam(required = false, value = "categoryId") Integer categoryId) {
+    @SkipResponseWrapper
+    public List<SkillCategoryDto> getSkillCategory(@RequestParam(required = false, value = "categoryId") Integer categoryId) {
         return skillsDetailService.getSkillCategory(categoryId);
     }
 
@@ -44,7 +47,7 @@ public class SkillDetailController {
     }
 
     @GetMapping("get-skill")
-    public List<SkillDetailDto> getSkillDetailsById(@RequestParam(required = false, value = "skillId")  Integer skillId) {
+    public List<SkillDetailDto> getSkillDetails(@RequestParam(required = false, value = "skillId")  Integer skillId) {
         return skillsDetailService.getSkillDetails(skillId);
     }
 
@@ -67,5 +70,17 @@ public class SkillDetailController {
     public boolean removeUserSkillMapping(@PathVariable(value = "skillId") Integer skillId, HttpServletRequest request) {
         return skillsDetailService.removeUserSkill(skillId, httpServletRequestDetails.getUserIdFromToken(request));
     }
+
+    @PostMapping("user/endorse-skill")
+    public boolean endorseASkill(@RequestBody SkillEndorsementDto endorsementDto, HttpServletRequest request) {
+        return skillsDetailService.endorseASkill(endorsementDto, httpServletRequestDetails.getUserIdFromToken(request));
+    }
+
+    @PostMapping("user/remove/endorse-skill/{endorseId}")
+    public boolean removeAEndorseSkill(@PathVariable(value = "endorseId") Integer endorseId, HttpServletRequest request) {
+        return skillsDetailService.removeAEndorsedSkill(endorseId, httpServletRequestDetails.getUserIdFromToken(request));
+    }
+
+
 
 }

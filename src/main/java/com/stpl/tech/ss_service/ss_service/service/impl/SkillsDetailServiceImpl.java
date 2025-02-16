@@ -1,19 +1,25 @@
 package com.stpl.tech.ss_service.ss_service.service.impl;
 
+import com.stpl.tech.ss_service.ss_service.config.annotations.CustomNotNull;
 import com.stpl.tech.ss_service.ss_service.config.annotations.MasterTransactional;
 import com.stpl.tech.ss_service.ss_service.dbDomain.abstractRepo.CommonDaoResource;
 import com.stpl.tech.ss_service.ss_service.dbDomain.dao.SkillDetailDao;
 import com.stpl.tech.ss_service.ss_service.modal.dto.SkillCategoryDto;
 import com.stpl.tech.ss_service.ss_service.modal.dto.SkillDetailDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.SkillEndorsementDto;
 import com.stpl.tech.ss_service.ss_service.modal.dto.UserSkillMappingDto;
 import com.stpl.tech.ss_service.ss_service.modal.entity.UserBaseDetailData;
 import com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity.SkillCategoryData;
 import com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity.SkillDetailData;
+import com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity.SkillEndorsementData;
 import com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity.UserSkillMappingData;
+import com.stpl.tech.ss_service.ss_service.modal.enums.SkillStatus;
 import com.stpl.tech.ss_service.ss_service.modal.enums.UserSkillStatus;
 import com.stpl.tech.ss_service.ss_service.service.SkillsDetailService;
 import com.stpl.tech.ss_service.ss_service.utilService.mapper.SkillDetailServiceMapper;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -83,12 +89,18 @@ public class SkillsDetailServiceImpl implements SkillsDetailService {
     }
 
     @Override
-    public UserSkillMappingDto addSkillToAUser(UserSkillMappingDto mappingDto, Integer userId) {
-        if(userId == null) {
-            throw new RuntimeException("User Id not found to add skill to user");
-        } else if(mappingDto.getSkillDetailDto() == null || mappingDto.getSkillDetailDto().getSkillId() == null) {
+    public UserSkillMappingDto addSkillToAUser(UserSkillMappingDto mappingDto, @CustomNotNull("userId") Integer userId) {
+        if(mappingDto.getSkillDetailDto() == null || mappingDto.getSkillDetailDto().getSkillId() == null) {
             throw new RuntimeException("skill details not found to add skill to user : " + userId);
         }
+
+        Integer isAlreadySkillAddedToUser = skillDetailDao.isAlreadySkillAddedToUser(userId, mappingDto.getSkillDetailDto().getSkillId(), UserSkillStatus.IN_ACTIVE);
+
+        if(isAlreadySkillAddedToUser != null) {
+            UserSkillMappingData skillMappingData = commonDao.find(UserSkillMappingData.class, isAlreadySkillAddedToUser);
+            skillMappingData.setUserSkillStatus(UserSkillStatus.ACTIVE);
+        }
+
         UserBaseDetailData userData = commonDao.find(UserBaseDetailData.class, userId);
         SkillDetailData skillDetailData = commonDao.find(SkillDetailData.class, mappingDto.getSkillDetailDto().getSkillId());
 
@@ -135,6 +147,29 @@ public class SkillsDetailServiceImpl implements SkillsDetailService {
             throw new RuntimeException("Required field are null");
         }
         return skillDetailDao.removeUserSkill(skillId, userId, UserSkillStatus.DELETED);
+    }
+
+    @Override
+    public boolean endorseASkill(SkillEndorsementDto endorsementDto, @CustomNotNull("userId") Integer userId) {
+        if(endorsementDto.getUserSkillMapping() == null || endorsementDto.getUserSkillMapping().getUserSkillMappingId() == null) {
+            throw new RuntimeException("skill details not found to endorse by user : " + userId);
+        }
+        UserBaseDetailData userData = commonDao.find(UserBaseDetailData.class, userId);
+        UserSkillMappingData skillMappingData = commonDao.find(UserSkillMappingData.class, endorsementDto.getUserSkillMapping().getUserSkillMappingId());
+
+        SkillEndorsementData endorsementData = new SkillEndorsementData();
+        endorsementData.setEndorsedByUser(userData);
+        endorsementData.setUserSkillMapping(skillMappingData);
+        endorsementData.setEndorsementComment(endorsementDto.getEndorsementComment());
+        endorsementData.setEndorsementStatus(SkillStatus.ACTIVE);
+        commonDao.add(endorsementData);
+
+        return true;
+    }
+
+    @Override
+    public boolean removeAEndorsedSkill(@CustomNotNull("endorseId") Integer endorseId, @CustomNotNull("userId") Integer userId) {
+        return skillDetailDao.removeAEndorsedSkill(endorseId, userId);
     }
 
 }
