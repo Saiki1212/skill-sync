@@ -12,4 +12,8 @@ public interface SkillDetailDao {
     List<UserSkillMappingData> findByUserIdAndSkillIdAndStatus(Integer userId, Integer skillId, List<UserSkillStatus> statusList);
 
     boolean removeUserSkill(Integer skillId, Integer userId, UserSkillStatus status);
+
+    boolean removeAEndorsedSkill(Integer endorseId, Integer userId);
+
+    Integer isAlreadySkillAddedToUser(Integer userId, Integer skillId, UserSkillStatus inActive);
 }
