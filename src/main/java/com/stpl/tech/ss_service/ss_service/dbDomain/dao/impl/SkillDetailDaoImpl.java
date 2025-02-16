@@ -2,6 +2,7 @@ package com.stpl.tech.ss_service.ss_service.dbDomain.dao.impl;
 
 import com.stpl.tech.ss_service.ss_service.dbDomain.dao.SkillDetailDao;
 import com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity.UserSkillMappingData;
+import com.stpl.tech.ss_service.ss_service.modal.enums.SkillStatus;
 import com.stpl.tech.ss_service.ss_service.modal.enums.UserSkillStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -42,10 +43,33 @@ public class SkillDetailDaoImpl implements SkillDetailDao {
 
         query.setParameter("skillId", skillId)
                 .setParameter("userId", userId)
-                .setParameter("status", status)
-                .executeUpdate();
+                .setParameter("status", status);
 
-        return true;
+        return query.executeUpdate() > 0;
+    }
+
+    @Override
+    public boolean removeAEndorsedSkill(Integer endorseId, Integer userId) {
+        Query query = manager.createQuery("UPDATE SkillEndorsementData " +
+                "SET endorsementStatus = :status " +
+                "WHERE skillEndorsementId = :endorseId AND endorsedByUser.userId = :userId");
+
+        query.setParameter("endorseId", endorseId)
+                .setParameter("userId", userId)
+                .setParameter("status", SkillStatus.DELETED);
+        return query.executeUpdate() > 0;
+    }
+
+    @Override
+    public Integer isAlreadySkillAddedToUser(Integer userId, Integer skillId, UserSkillStatus status) {
+        Query query = manager.createQuery("SELECT userSkillMappingId UserSkillMappingData " +
+                "WHERE skill.skillId = :skillId AND user.userId = :userId AND userSkillStatus <>:status");
+
+        query.setParameter("skillId", skillId)
+                .setParameter("userId", userId)
+                .setParameter("status", status);
+        List<Integer> data = query.getResultList();
+        return data.isEmpty() ? null : data.get(0);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.stpl.tech.ss_service.ss_service.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +49,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorTemplate handleAllExceptions(HttpServletRequest request, Exception exp) {
+        return returnCompleteErrorMessage(exp, "An Unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorTemplate handleConstraintViolation(HttpServletRequest request, ConstraintViolationException e) {
+        return returnCompleteErrorMessage(e, "Not null fields are null", HttpStatus.BAD_REQUEST, request);
+    }
+
+    private ErrorTemplate returnCompleteErrorMessage(Exception exp, String ErrorMessage, HttpStatus httpStatus, HttpServletRequest request) {
         StackTraceElement[] stackTrace = exp.getStackTrace();
         ErrorTemplate errorTemplate = new ErrorTemplate();
 
@@ -58,10 +69,10 @@ public class GlobalExceptionHandler {
         }
 
         errorTemplate.setTimestamp(LocalDateTime.now());
-        errorTemplate.setErrorTitle("An Unexpected error occurred");
+        errorTemplate.setErrorTitle(ErrorMessage);
         errorTemplate.setErrorMsg(exp.getMessage());
         errorTemplate.setPath(request.getRequestURI());
-        errorTemplate.setExceptionType(HttpStatus.INTERNAL_SERVER_ERROR.name());
+        errorTemplate.setExceptionType(httpStatus.name());
 
         log.error("Exception occurred in Class: {}, Method: {}, Line: {}, Message: {}" ,
                 errorTemplate.getErrorClassName() ,
