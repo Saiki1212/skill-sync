@@ -3,13 +3,14 @@ package com.stpl.tech.ss_service.ss_service.utilService.email;
 import com.stpl.tech.ss_service.ss_service.modal.entity.UserBaseDetailData;
 import com.stpl.tech.ss_service.ss_service.utilService.AppConstants;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public class RegistrationSuccessEMail implements EmailTemplate {
+public class UserToCreatorConversionEmail implements EmailTemplate {
 
     private final UserBaseDetailData userData;
 
-    public RegistrationSuccessEMail(UserBaseDetailData userData) {
+    public UserToCreatorConversionEmail(UserBaseDetailData userData) {
         this.userData = userData;
     }
 
@@ -25,25 +26,25 @@ public class RegistrationSuccessEMail implements EmailTemplate {
 
     @Override
     public String subject() {
-        return "Registration successful brother";
+        return "Conversion from user to creator";
     }
 
     @Override
     public String body() {
-        return "Your registration was completed !!!! " +
-                "tq for registering " + userData.getFullName() +
-                "Your user name is  " + userData.getUsername() + " and phone number is " + userData.getPhoneNumber();
+        return null;
     }
 
     @Override
     public Map<String, Object> data() {
-        return null;
+        Map<String, Object> map = new HashMap<>();
+        map.put("creatorId", userData.getCreatorDetailData().getCreatorId());
+        map.put("username", userData.getUsername());
+        return map;
     }
 
     @Override
     public String templateName() {
-        return null;
+        return "user-creator-conversion";
     }
-
 
 }

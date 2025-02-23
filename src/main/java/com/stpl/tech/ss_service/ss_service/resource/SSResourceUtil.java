@@ -8,5 +8,6 @@ public class SSResourceUtil {
     public static final String AUTH_ROOT_CONTEXT = "auth";
     public static final String USER_BASIC_DETAIL_ROOT_CONTEXT = "user-detail";
     public static final String SKILL_DETAIL_ROOT_CONTEXT = "skill-detail";
+    public static final String CREATOR_DETAIL_ROOT_CONTEXT = "creator-detail";
 
 }

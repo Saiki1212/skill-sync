@@ -1,9 +1,9 @@
 package com.stpl.tech.ss_service.ss_service.service;
 
-import com.stpl.tech.ss_service.ss_service.modal.dto.SkillCategoryDto;
-import com.stpl.tech.ss_service.ss_service.modal.dto.SkillDetailDto;
-import com.stpl.tech.ss_service.ss_service.modal.dto.SkillEndorsementDto;
-import com.stpl.tech.ss_service.ss_service.modal.dto.UserSkillMappingDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.SkillCategoryDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.SkillDetailDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.SkillEndorsementDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.UserSkillMappingDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,9 +1,7 @@
 package com.stpl.tech.ss_service.ss_service.modal.enums;
 
-public enum UserStatus {
-
+public enum CommonStatus {
     ACTIVE,
     IN_ACTIVE,
     DELETED
-
 }

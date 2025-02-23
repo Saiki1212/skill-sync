@@ -58,6 +58,12 @@ public class GlobalExceptionHandler {
         return returnCompleteErrorMessage(e, "Not null fields are null", HttpStatus.BAD_REQUEST, request);
     }
 
+    @ExceptionHandler(CreatorException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorTemplate handleCreatorExceptions(HttpServletRequest request, CreatorException exp) {
+        return returnCompleteErrorMessage(exp, "Error in creator", HttpStatus.FORBIDDEN, request);
+    }
+
     private ErrorTemplate returnCompleteErrorMessage(Exception exp, String ErrorMessage, HttpStatus httpStatus, HttpServletRequest request) {
         StackTraceElement[] stackTrace = exp.getStackTrace();
         ErrorTemplate errorTemplate = new ErrorTemplate();

@@ -1,13 +1,12 @@
 package com.stpl.tech.ss_service.ss_service.service.impl;
 
-import com.stpl.tech.ss_service.ss_service.config.annotations.CustomNotNull;
 import com.stpl.tech.ss_service.ss_service.config.annotations.MasterTransactional;
 import com.stpl.tech.ss_service.ss_service.dbDomain.abstractRepo.CommonDaoResource;
 import com.stpl.tech.ss_service.ss_service.dbDomain.dao.SkillDetailDao;
-import com.stpl.tech.ss_service.ss_service.modal.dto.SkillCategoryDto;
-import com.stpl.tech.ss_service.ss_service.modal.dto.SkillDetailDto;
-import com.stpl.tech.ss_service.ss_service.modal.dto.SkillEndorsementDto;
-import com.stpl.tech.ss_service.ss_service.modal.dto.UserSkillMappingDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.SkillCategoryDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.SkillDetailDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.SkillEndorsementDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.UserSkillMappingDto;
 import com.stpl.tech.ss_service.ss_service.modal.entity.UserBaseDetailData;
 import com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity.SkillCategoryData;
 import com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity.SkillDetailData;
@@ -19,7 +18,6 @@ import com.stpl.tech.ss_service.ss_service.service.SkillsDetailService;
 import com.stpl.tech.ss_service.ss_service.utilService.mapper.SkillDetailServiceMapper;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -89,7 +87,7 @@ public class SkillsDetailServiceImpl implements SkillsDetailService {
     }
 
     @Override
-    public UserSkillMappingDto addSkillToAUser(UserSkillMappingDto mappingDto, @CustomNotNull("userId") Integer userId) {
+    public UserSkillMappingDto addSkillToAUser(UserSkillMappingDto mappingDto, @NotNull Integer userId) {
         if(mappingDto.getSkillDetailDto() == null || mappingDto.getSkillDetailDto().getSkillId() == null) {
             throw new RuntimeException("skill details not found to add skill to user : " + userId);
         }
@@ -150,7 +148,7 @@ public class SkillsDetailServiceImpl implements SkillsDetailService {
     }
 
     @Override
-    public boolean endorseASkill(SkillEndorsementDto endorsementDto, @CustomNotNull("userId") Integer userId) {
+    public boolean endorseASkill(SkillEndorsementDto endorsementDto, @NotNull Integer userId) {
         if(endorsementDto.getUserSkillMapping() == null || endorsementDto.getUserSkillMapping().getUserSkillMappingId() == null) {
             throw new RuntimeException("skill details not found to endorse by user : " + userId);
         }
@@ -168,7 +166,7 @@ public class SkillsDetailServiceImpl implements SkillsDetailService {
     }
 
     @Override
-    public boolean removeAEndorsedSkill(@CustomNotNull("endorseId") Integer endorseId, @CustomNotNull("userId") Integer userId) {
+    public boolean removeAEndorsedSkill(@NotNull Integer endorseId, @NotNull Integer userId) {
         return skillDetailDao.removeAEndorsedSkill(endorseId, userId);
     }
 
