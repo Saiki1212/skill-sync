@@ -1,8 +1,8 @@
 package com.stpl.tech.ss_service.ss_service.utilService.mapper;
 
-import com.stpl.tech.ss_service.ss_service.modal.dto.SkillCategoryDto;
-import com.stpl.tech.ss_service.ss_service.modal.dto.SkillDetailDto;
-import com.stpl.tech.ss_service.ss_service.modal.dto.UserSkillMappingDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.SkillCategoryDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.SkillDetailDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.UserSkillMappingDto;
 import com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity.SkillCategoryData;
 import com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity.SkillDetailData;
 import com.stpl.tech.ss_service.ss_service.modal.entity.skillsEntity.UserSkillMappingData;

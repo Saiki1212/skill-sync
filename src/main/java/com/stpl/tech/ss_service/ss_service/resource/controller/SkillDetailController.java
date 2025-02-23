@@ -1,11 +1,10 @@
 package com.stpl.tech.ss_service.ss_service.resource.controller;
 
-import com.stpl.tech.ss_service.ss_service.config.annotations.SkipResponseWrapper;
 import com.stpl.tech.ss_service.ss_service.dbDomain.abstractRepo.HttpServletRequestDetails;
-import com.stpl.tech.ss_service.ss_service.modal.dto.SkillCategoryDto;
-import com.stpl.tech.ss_service.ss_service.modal.dto.SkillDetailDto;
-import com.stpl.tech.ss_service.ss_service.modal.dto.SkillEndorsementDto;
-import com.stpl.tech.ss_service.ss_service.modal.dto.UserSkillMappingDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.SkillCategoryDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.SkillDetailDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.SkillEndorsementDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.skillsDto.UserSkillMappingDto;
 import com.stpl.tech.ss_service.ss_service.resource.SSResourceUtil;
 import com.stpl.tech.ss_service.ss_service.service.SkillsDetailService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +35,6 @@ public class SkillDetailController {
     }
 
     @GetMapping("get-category")
-    @SkipResponseWrapper
     public List<SkillCategoryDto> getSkillCategory(@RequestParam(required = false, value = "categoryId") Integer categoryId) {
         return skillsDetailService.getSkillCategory(categoryId);
     }

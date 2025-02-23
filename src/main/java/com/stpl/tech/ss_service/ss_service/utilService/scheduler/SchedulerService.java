@@ -7,5 +7,6 @@ import org.springframework.stereotype.Service;
 public interface SchedulerService {
 
     void scheduleUserEmailForRegistration(UserBaseDetailData userData, int ignoredDelayInMinutes);
+    void scheduleUserEmailForCreatorConversion(UserBaseDetailData userData, int ignoredDelayInMinutes);
 
 }
