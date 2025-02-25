@@ -1,6 +1,6 @@
 package com.stpl.tech.ss_service.ss_service.modal.entity.creator;
 
-import com.stpl.tech.ss_service.ss_service.modal.entity.BaseFieldsEntityData;
+import com.stpl.tech.ss_service.ss_service.modal.entity.BaseCreateEntityData;
 import com.stpl.tech.ss_service.ss_service.modal.entity.UserBaseDetailData;
 import com.stpl.tech.ss_service.ss_service.modal.enums.CreatorStatus;
 import jakarta.persistence.Column;
@@ -14,7 +14,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +28,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "CREATOR_DETAIL_DATA")
-public class CreatorDetailData extends BaseFieldsEntityData {
+public class CreatorDetailData extends BaseCreateEntityData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
