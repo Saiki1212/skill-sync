@@ -4,16 +4,22 @@ import com.stpl.tech.ss_service.ss_service.config.annotations.MasterTransactiona
 import com.stpl.tech.ss_service.ss_service.dbDomain.abstractRepo.CommonDaoResource;
 import com.stpl.tech.ss_service.ss_service.dbDomain.repository.CreatorDetailRepo;
 import com.stpl.tech.ss_service.ss_service.exception.CreatorException;
+import com.stpl.tech.ss_service.ss_service.modal.dto.creator.AvailableTimeSlotsDto;
 import com.stpl.tech.ss_service.ss_service.modal.dto.creator.CreatorDetailDto;
+import com.stpl.tech.ss_service.ss_service.modal.dto.creator.TypeOfCommunicationDto;
 import com.stpl.tech.ss_service.ss_service.modal.entity.UserBaseDetailData;
 import com.stpl.tech.ss_service.ss_service.modal.entity.creator.CreatorDetailData;
+import com.stpl.tech.ss_service.ss_service.modal.entity.creator.TypeOfCommunicationData;
 import com.stpl.tech.ss_service.ss_service.modal.enums.CreatorStatus;
 import com.stpl.tech.ss_service.ss_service.service.CreatorDetailService;
+import com.stpl.tech.ss_service.ss_service.utilService.NullCheckUtil;
 import com.stpl.tech.ss_service.ss_service.utilService.mapper.CreatorDetailMapper;
 import com.stpl.tech.ss_service.ss_service.utilService.scheduler.SchedulerService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @MasterTransactional
 public class CreatorDetailServiceImpl implements CreatorDetailService {
@@ -66,6 +72,43 @@ public class CreatorDetailServiceImpl implements CreatorDetailService {
         CreatorDetailData creator = commonDao.find(CreatorDetailData.class, creatorDto.getId());
         creator.setCreatorStatus(creatorDto.getCreatorStatus());
         commonDao.update(creator);
+        return true;
+    }
+
+    @Override
+    public boolean addTypeOfCommunication(TypeOfCommunicationDto communicationDto) {
+        if(NullCheckUtil.isNull(communicationDto.getCreatorDetailDto(), communicationDto.getCreatorDetailDto().getId())) {
+            log.info("Creator detail was null");
+            return false;
+        }
+        TypeOfCommunicationData communicationData = creatorDetailMapper.convertDtoToData(communicationDto);
+        CreatorDetailData creator = commonDao.find(CreatorDetailData.class, communicationDto.getCreatorDetailDto().getId());
+        communicationData.setCreatorDetailData(creator);
+        commonDao.add(communicationData);
+        return true;
+    }
+
+    @Override
+    public boolean editTypeOfCommunication(TypeOfCommunicationDto communicationDto) {
+        TypeOfCommunicationData communicationData = commonDao.find(TypeOfCommunicationData.class, communicationDto.getCommunicationId());
+        if(communicationData == null) {
+            log.info("TypeOfCommunicationData was null");
+            return false;
+        }
+        communicationData.setCommunicationStatus(communicationDto.getCommunicationStatus());
+        communicationData.setCommunicationType(communicationDto.getCommunicationType());
+        commonDao.add(communicationData);
+        return true;
+    }
+
+    @Override
+    public boolean addAvailabilityTimeSlot(AvailableTimeSlotsDto availableTimeSlotsDto) {
+
+        return true;
+    }
+
+    @Override
+    public boolean editAvailabilityTimeSlot(AvailableTimeSlotsDto availableTimeSlotsDto) {
         return true;
     }
 

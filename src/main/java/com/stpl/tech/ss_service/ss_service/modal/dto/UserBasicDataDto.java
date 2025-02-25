@@ -12,4 +12,7 @@ public class UserBasicDataDto {
     private Integer userId;
     private String username;
     private UserStatus userStatus;
+    private String fullName;
+    private Long phoneNumber;
+    private String email;
 }
