@@ -4,7 +4,6 @@ import com.stpl.tech.ss_service.ss_service.dbDomain.abstractRepo.HttpServletRequ
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.security.core.Authentication;
 
 import java.util.Optional;
 
@@ -15,7 +14,9 @@ public class AuditorAwareImpl implements AuditorAware<Integer> {
     @Autowired
     private HttpServletRequestDetails servletRequestDetails;
 
-    public AuditorAwareImpl(HttpServletRequest request) {this.request = request;}
+    public AuditorAwareImpl(HttpServletRequest request) {
+        this.request = request;
+    }
 
     @Override
     public Optional<Integer> getCurrentAuditor() {

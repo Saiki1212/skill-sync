@@ -1,8 +1,8 @@
 package com.stpl.tech.ss_service.ss_service.modal.entity.creator;
 
-import com.stpl.tech.ss_service.ss_service.modal.entity.BaseFieldsEntityData;
-import com.stpl.tech.ss_service.ss_service.modal.enums.CommunicationType;
+import com.stpl.tech.ss_service.ss_service.modal.entity.BaseCreateEntityData;
 import com.stpl.tech.ss_service.ss_service.modal.enums.CommonStatus;
+import com.stpl.tech.ss_service.ss_service.modal.enums.CommunicationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,7 +17,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
@@ -28,7 +27,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "TYPE_OF_COMMUNICATION_DATA")
-public class TypeOfCommunicationData extends BaseFieldsEntityData {
+public class TypeOfCommunicationData extends BaseCreateEntityData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
