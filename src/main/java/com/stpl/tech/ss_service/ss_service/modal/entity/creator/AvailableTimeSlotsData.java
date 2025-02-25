@@ -1,6 +1,6 @@
 package com.stpl.tech.ss_service.ss_service.modal.entity.creator;
 
-import com.stpl.tech.ss_service.ss_service.modal.entity.BaseFieldsEntityData;
+import com.stpl.tech.ss_service.ss_service.modal.entity.BaseCreateEntityData;
 import com.stpl.tech.ss_service.ss_service.modal.enums.CommonStatus;
 import com.stpl.tech.ss_service.ss_service.modal.enums.DayType;
 import com.stpl.tech.ss_service.ss_service.utilService.enumConverter.DayTypeConverter;
@@ -32,7 +32,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "AVAILABLE_TIME_SLOTS")
-public class AvailableTimeSlotsData extends BaseFieldsEntityData {
+public class AvailableTimeSlotsData extends BaseCreateEntityData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

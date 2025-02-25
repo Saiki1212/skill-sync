@@ -1,5 +1,6 @@
 package com.stpl.tech.ss_service.ss_service.modal.dto.creator;
 
+import com.stpl.tech.ss_service.ss_service.modal.dto.UserBasicDataDto;
 import com.stpl.tech.ss_service.ss_service.modal.entity.UserBaseDetailData;
 import com.stpl.tech.ss_service.ss_service.modal.entity.creator.TypeOfCommunicationData;
 import com.stpl.tech.ss_service.ss_service.modal.enums.CreatorStatus;
@@ -17,7 +18,7 @@ import java.util.Set;
 public class CreatorDetailDto {
 
     private Integer id;
-    private UserBaseDetailData userBaseDetailData;
+    private UserBasicDataDto userBasicDataDto;
     private String bio;
     private String profileImageUrl;
     private String headerProfileImageUrl;
@@ -26,5 +27,6 @@ public class CreatorDetailDto {
     private Integer createdBy;
     private LocalDateTime updatedAt;
     private Integer updatedBy;
+    private Set<TypeOfCommunicationDto> typeOfCommunicationDtoSet;
 
 }
